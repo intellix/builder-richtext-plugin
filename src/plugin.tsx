@@ -3,9 +3,12 @@ import { jsx } from '@emotion/core';
 import { Builder } from '@builder.io/sdk';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { highlight, configure } from 'highlight.js';
 
 const modules = {
-  syntax: true,
+  syntax: {
+    highlight,
+  },
   toolbar: [
     [{ header: [1, 2, 3, 4, 5, 6, false] }],
     ['bold', 'italic', 'underline', 'strike'],
@@ -18,6 +21,10 @@ const modules = {
     ['clean'],
   ],
 };
+
+configure({
+  languages: ['javascript'],
+})
 
 const formats = [
   'header',
@@ -57,6 +64,6 @@ Builder.registerEditor({
   /**
    * Here we override the built-in richtext editor.
    */
-  name: 'richText',
+  name: 'html',
   component: RichTextEditor,
 });
