@@ -1,5 +1,6 @@
 const path = require('path');
 const pkg = require('./package.json');
+
 module.exports = {
   entry: `./src/${pkg.entry}.tsx`,
   externals: {
@@ -8,6 +9,9 @@ module.exports = {
     '@material-ui/core': '@material-ui/core',
     '@emotion/core': '@emotion/core',
     '@emotion/styled': '@emotion/styled',
+  },
+  optimization: {
+    minimize: false,
   },
   output: {
     filename: pkg.output,
@@ -40,11 +44,14 @@ module.exports = {
         enforce: 'pre',
         test: /\.js$/,
         loader: 'source-map-loader',
+        exclude: /node_modules/,
       },
     ],
   },
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
     compress: true,
     port: 1268,
     headers: {
