@@ -1,0 +1,163 @@
+import { Descendant, BaseEditor, BaseRange, Range, Element } from 'slate';
+import { ReactEditor, RenderElementProps } from 'slate-react';
+import { HistoryEditor } from 'slate-history';
+export declare const HOTKEYS: Record<string, CustomTextKey>;
+export declare const LIST_TYPES: readonly ["ol", "ul"];
+export declare const TEXT_ALIGN_TYPES: readonly ["left", "center", "right", "justify"];
+export type AlignType = (typeof TEXT_ALIGN_TYPES)[number];
+export type ListType = (typeof LIST_TYPES)[number];
+export type CustomElementFormat = CustomElementType | AlignType | ListType;
+export type BlockQuoteElement = {
+    type: 'blockquote';
+    align?: string;
+    children: Descendant[];
+};
+export type BulletedListElement = {
+    type: 'ul';
+    align?: string;
+    children: Descendant[];
+};
+export type CheckListItemElement = {
+    type: 'check-list-item';
+    checked: boolean;
+    children: Descendant[];
+};
+export type EditableVoidElement = {
+    type: 'editable-void';
+    children: EmptyText[];
+};
+export type HeadingElement = {
+    type: 'h1';
+    align?: string;
+    children: Descendant[];
+};
+export type HeadingTwoElement = {
+    type: 'h2';
+    align?: string;
+    children: Descendant[];
+};
+export type HeadingThreeElement = {
+    type: 'h3';
+    align?: string;
+    children: Descendant[];
+};
+export type HeadingFourElement = {
+    type: 'h4';
+    align?: string;
+    children: Descendant[];
+};
+export type HeadingFiveElement = {
+    type: 'h5';
+    align?: string;
+    children: Descendant[];
+};
+export type HeadingSixElement = {
+    type: 'h6';
+    align?: string;
+    children: Descendant[];
+};
+export type ImageElement = {
+    type: 'img';
+    url: string;
+    children: EmptyText[];
+};
+export type LinkElement = {
+    type: 'link';
+    url: string;
+    children: Descendant[];
+};
+export type ButtonElement = {
+    type: 'button';
+    children: Descendant[];
+};
+export type BadgeElement = {
+    type: 'badge';
+    children: Descendant[];
+};
+export type ListItemElement = {
+    type: 'li';
+    children: Descendant[];
+};
+export type NumberedListItemElement = {
+    type: 'ol';
+    align?: string;
+    children: Descendant[];
+};
+export type MentionElement = {
+    type: 'mention';
+    character: string;
+    children: CustomText[];
+};
+export type ParagraphElement = {
+    type: 'p';
+    align?: string;
+    children: Descendant[];
+};
+export type TableRow = any;
+export type TableCell = any;
+export type TableElement = {
+    type: 'table';
+    children: TableRow[];
+};
+export type TableCellElement = {
+    type: 'table-cell';
+    children: CustomText[];
+};
+export type TableRowElement = {
+    type: 'table-row';
+    children: TableCell[];
+};
+export type TitleElement = {
+    type: 'title';
+    children: Descendant[];
+};
+export type VideoElement = {
+    type: 'video';
+    url: string;
+    children: EmptyText[];
+};
+export type CodeBlockElement = {
+    type: 'code';
+    language: string;
+    children: Descendant[];
+};
+export type CodeLineElement = {
+    type: 'code-line';
+    children: Descendant[];
+};
+export type CustomElementWithAlign = ParagraphElement | HeadingElement | HeadingTwoElement | HeadingThreeElement | HeadingFourElement | HeadingFiveElement | HeadingSixElement | BlockQuoteElement | BulletedListElement;
+export type CustomElement = BlockQuoteElement | BulletedListElement | CheckListItemElement | EditableVoidElement | HeadingElement | HeadingTwoElement | HeadingThreeElement | HeadingFourElement | HeadingFiveElement | HeadingSixElement | ImageElement | LinkElement | ButtonElement | BadgeElement | ListItemElement | NumberedListItemElement | MentionElement | ParagraphElement | TableElement | TableRowElement | TableCellElement | TitleElement | VideoElement | CodeBlockElement | CodeLineElement;
+export type CustomElementType = CustomElement['type'];
+export type CustomText = {
+    bold?: boolean;
+    italic?: boolean;
+    code?: boolean;
+    underline?: boolean;
+    strikethrough?: boolean;
+    underlined?: boolean;
+    title?: boolean;
+    list?: boolean;
+    hr?: boolean;
+    blockquote?: boolean;
+    text: string;
+};
+export type CustomTextKey = keyof Omit<CustomText, 'text'>;
+export type EmptyText = {
+    text: string;
+};
+export type RenderElementPropsFor<T> = RenderElementProps & {
+    element: T;
+};
+export type CustomEditor = BaseEditor & ReactEditor & HistoryEditor & {
+    nodeToDecorations?: Map<Element, Range[]>;
+};
+declare module 'slate' {
+    interface CustomTypes {
+        Editor: CustomEditor;
+        Element: CustomElement;
+        Text: CustomText;
+        Range: BaseRange & {
+            [key: string]: unknown;
+        };
+    }
+}
